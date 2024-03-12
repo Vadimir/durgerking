@@ -1,0 +1,24 @@
+.popup {
+position:fixed;
+bottom:30px;
+right:30px;
+width:350px;
+height:300px;
+background:#fefefe;
+border:3px solid #333;
+box-shadow:0 0 10px rgba(0,0,0,0.5);
+}
+.popup__content {
+padding:5px;
+text-align:center;
+}
+.popup__close {
+cursor:pointer;
+text-align:right;
+padding:2px;
+background:#333;
+color:#fefefe;
+}
+.popup {
+right:-3000000000px;
+}
