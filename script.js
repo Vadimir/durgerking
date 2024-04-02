@@ -152,7 +152,7 @@ hdog.addEventListener("click", function(){
 });
 
 
-Telegram.WebApp.onEvent("mainButtonClicked", function(){
+tg.onEvent("mainButtonClicked", function(){
 	tg.sendData(item);
 });
 
