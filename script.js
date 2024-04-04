@@ -154,7 +154,7 @@ hdog.addEventListener("click", function(){
 
 tg.onEvent("mainButtonClicked", function(){
 	console.log("123");
-	tg.sendData(item);
+	tg.sendData("sometext");
 });
 
 
