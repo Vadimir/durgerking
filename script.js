@@ -1,4 +1,5 @@
 let tg = window.Telegram.WebApp;
+
 tg.expand();
 
 tg.MainButton.textColor = "#FFFFFF";
@@ -24,6 +25,7 @@ let prices = {
 
 let products = ["burger", "fries", "pizza", "coke", "donut", "hdog"];
 
+// Считаем общую сумму заказа
 function countTotal() {
     let sum = 0;
 
@@ -34,6 +36,7 @@ function countTotal() {
     return sum;
 }
 
+// Обновляем главную кнопку Telegram
 function updateMainButton() {
     let total = countTotal();
 
@@ -45,9 +48,11 @@ function updateMainButton() {
     }
 }
 
+// Создаём красный кружок над картинкой
 function createBadge(productName) {
-    let productBlock = document.getElementById(productName).parentElement;
-    let imgBlock = productBlock.querySelector(".img");
+    let productButton = document.getElementById(productName);
+    let productBlock = productButton.closest(".item");
+    let imgBlock = productBlock.querySelector(".img_block");
 
     let badge = document.createElement("div");
     badge.id = productName + "_badge";
@@ -57,6 +62,7 @@ function createBadge(productName) {
     imgBlock.appendChild(badge);
 }
 
+// Обновляем красный кружок
 function updateBadge(productName) {
     let badge = document.getElementById(productName + "_badge");
 
@@ -73,9 +79,10 @@ function updateBadge(productName) {
     }
 }
 
+// Показываем блок с кнопками минус / сумма / плюс
 function showCounter(productName) {
     let addButton = document.getElementById(productName);
-    let parentDiv = addButton.parentElement;
+    let buttonBlock = addButton.parentElement;
 
     addButton.classList.add("hidden");
 
@@ -107,7 +114,7 @@ function showCounter(productName) {
     controls.appendChild(countText);
     controls.appendChild(plusButton);
 
-    parentDiv.appendChild(controls);
+    buttonBlock.appendChild(controls);
 
     plusButton.addEventListener("click", function () {
         item[productName] += 1;
@@ -123,6 +130,7 @@ function showCounter(productName) {
     });
 }
 
+// Убираем кнопки + и -, возвращаем кнопку Добавить
 function hideCounter(productName) {
     let addButton = document.getElementById(productName);
     let controls = document.getElementById(productName + "_controls");
@@ -134,6 +142,7 @@ function hideCounter(productName) {
     addButton.classList.remove("hidden");
 }
 
+// Обновляем конкретный товар
 function updateProduct(productName) {
     if (item[productName] <= 0) {
         item[productName] = 0;
@@ -152,17 +161,21 @@ function updateProduct(productName) {
     updateMainButton();
 }
 
+// Навешиваем обработчики на все кнопки Добавить
 products.forEach(function (productName) {
     let button = document.getElementById(productName);
 
-    button.addEventListener("click", function () {
-        item[productName] = 1;
-        showCounter(productName);
-        updateBadge(productName);
-        updateMainButton();
-    });
+    if (button) {
+        button.addEventListener("click", function () {
+            item[productName] = 1;
+            showCounter(productName);
+            updateBadge(productName);
+            updateMainButton();
+        });
+    }
 });
 
+// Отправляем данные в бота при нажатии главной кнопки Telegram
 tg.onEvent("mainButtonClicked", function () {
     let result = "";
 
@@ -175,7 +188,11 @@ tg.onEvent("mainButtonClicked", function () {
     tg.sendData(result);
 });
 
+// Карточка пользователя
 let usercard = document.getElementById("usercard");
-let p = document.createElement("p");
-p.innerText = "Hi!";
-usercard.appendChild(p);
+
+if (usercard) {
+    let p = document.createElement("p");
+    p.innerText = "Hi!";
+    usercard.appendChild(p);
+}
