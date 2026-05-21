@@ -6,6 +6,13 @@ body {
 	background: var(--tg-theme-bg-color);
 }
 
+.img_block{
+    position: relative;
+}
+
+.product_img{
+    width: 120px;
+}
 
 .container {
 	max-width: 390px;
